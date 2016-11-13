@@ -29,16 +29,16 @@ public class LogFrame extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblNeighbors = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblPaths = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblNeighbors.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -64,12 +64,12 @@ public class LogFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(1).setMinWidth(80);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(80);
-            jTable1.getColumnModel().getColumn(1).setMaxWidth(100);
+        tblNeighbors.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tblNeighbors);
+        if (tblNeighbors.getColumnModel().getColumnCount() > 0) {
+            tblNeighbors.getColumnModel().getColumn(1).setMinWidth(80);
+            tblNeighbors.getColumnModel().getColumn(1).setPreferredWidth(80);
+            tblNeighbors.getColumnModel().getColumn(1).setMaxWidth(100);
         }
 
         jLabel1.setText("Neighbors");
@@ -96,7 +96,7 @@ public class LogFrame extends javax.swing.JFrame {
 
         jLabel2.setText("Shortest Paths");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblPaths.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -122,7 +122,7 @@ public class LogFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblPaths);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -211,7 +211,7 @@ public class LogFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    public javax.swing.JTable tblNeighbors;
+    public javax.swing.JTable tblPaths;
     // End of variables declaration//GEN-END:variables
 }
