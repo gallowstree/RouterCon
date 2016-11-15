@@ -3,6 +3,7 @@ package routercon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -67,10 +68,10 @@ public class RouterCon
 class RouterListener implements Runnable
 {
     RouterCon console;
-    String ip;
+    public static String ip;
 
     RouterListener(String ip, RouterCon con) {
-        this.ip = ip;
+        RouterListener.ip = ip;
         this.console = con;
     }
 
@@ -79,7 +80,8 @@ class RouterListener implements Runnable
     {
         try 
         {
-            ServerSocket sock = new ServerSocket(1984);
+            ServerSocket sock = new ServerSocket();
+            sock.bind(new InetSocketAddress(ip,1984));
             while (true)
             {
                 Socket conn = sock.accept();
