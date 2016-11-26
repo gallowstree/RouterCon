@@ -11,7 +11,9 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import java.lang.NumberFormatException;
 
 /**
  *
@@ -45,8 +47,9 @@ public class ConfManager extends javax.swing.JFrame
         txtTimeout = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblNeighbors = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
+        btnEliminar1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -71,7 +74,7 @@ public class ConfManager extends javax.swing.JFrame
 
         tblNeighbors.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"sds", "sdd",  new Integer(10)}
+
             },
             new String [] {
                 "Nombre", "IP", "Costo"
@@ -94,18 +97,35 @@ public class ConfManager extends javax.swing.JFrame
         });
         jScrollPane2.setViewportView(tblNeighbors);
 
-        jButton1.setText("Eliminar");
+        btnEliminar.setText("Eliminar Vecino");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Agregar");
+        btnAgregar.setText("Agregar Vecino");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+
+        btnEliminar1.setText("Actualizar Lista");
+        btnEliminar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminar1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(lblTimeout)
                             .addComponent(lblKA))
@@ -113,21 +133,21 @@ public class ConfManager extends javax.swing.JFrame
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtTimeout, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtKA, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnSave)))
-                    .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnSave))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblNeighbors)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(128, 128, 128)
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)
-                                .addGap(94, 94, 94)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(lblNeighbors)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnAgregar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEliminar1)))
+                .addGap(35, 35, 35))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,8 +168,9 @@ public class ConfManager extends javax.swing.JFrame
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnEliminar)
+                    .addComponent(btnAgregar)
+                    .addComponent(btnEliminar1))
                 .addGap(26, 26, 26))
         );
 
@@ -159,7 +180,12 @@ public class ConfManager extends javax.swing.JFrame
 
     private void formWindowOpened(java.awt.event.WindowEvent evt)//GEN-FIRST:event_formWindowOpened
     {//GEN-HEADEREND:event_formWindowOpened
-       try
+       this.getRouterConf(true);
+    }//GEN-LAST:event_formWindowOpened
+
+    private void getRouterConf(boolean disposeFrame)
+    {
+        try
        {
             Socket clientSocket = new Socket(RouterListener.ip, 1983);
             DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
@@ -172,6 +198,10 @@ public class ConfManager extends javax.swing.JFrame
             String[] confValues = conf.split("\\|");
             this.txtKA.setText(confValues[0]);
             this.txtTimeout.setText(confValues[1]);
+            for(int i = 0; i < this.m.getRowCount(); i++)
+            {
+               this.m.removeRow(i);
+            }
             if(confValues.length > 2)
             {
                 this.updateTblNeighbors(confValues[2]);
@@ -181,11 +211,10 @@ public class ConfManager extends javax.swing.JFrame
        catch(Exception e)
        {
            JOptionPane.showMessageDialog(this,"Ha ocurrido un error obteniendo la configuracion del router","Error!",JOptionPane.ERROR_MESSAGE);
-           this.dispose();
+           if (disposeFrame)
+                this.dispose();
        }
-            
-    }//GEN-LAST:event_formWindowOpened
-
+    }
     private void updateTblNeighbors(String neighborsList)
     {
         String [] neighbors = neighborsList.split(";");
@@ -209,14 +238,97 @@ public class ConfManager extends javax.swing.JFrame
             if(input.contains("OK"))
                 JOptionPane.showMessageDialog(this,"Configuración guardada con exito",":)",JOptionPane.INFORMATION_MESSAGE);
             else
-                JOptionPane.showMessageDialog(this,"Ha ocurrido un error guardando la configuración: "+input,"Error!",JOptionPane.ERROR_MESSAGE);
+                throw new Exception(input);
        }
        catch(Exception e)
        {
-           System.out.println("here");
-           JOptionPane.showMessageDialog(this,"Ha ocurrido un error guardando la configuración","Error!",JOptionPane.ERROR_MESSAGE);
+           JOptionPane.showMessageDialog(this,"Ha ocurrido un error guardando la configuración: "+e.getMessage(),"Error!",JOptionPane.ERROR_MESSAGE);
        }
     }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        JTextField routerName = new JTextField();
+        JTextField ip = new JTextField();
+        JTextField costo = new JTextField();
+        Object[] nodeInfo = {
+            "Nombre del Router:", routerName,
+            "IP:", ip,
+            "Costo:",costo
+        };
+
+        int option = JOptionPane.showConfirmDialog(null, nodeInfo, "Agregar Router", JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE);
+        if (option == JOptionPane.OK_OPTION) 
+        {
+            try {
+                int costoInt = Integer.parseInt(costo.getText());
+                if(costoInt < 1)
+                {
+                   throw new NumberFormatException("costo negativo");
+                }
+                
+                Socket clientSocket = new Socket(RouterListener.ip, 1983);
+                DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                String message = "AddNode|"+routerName.getText()+"|"+costoInt+"|"+ip.getText();
+                out.write(message.getBytes());
+                String input = in.readLine();
+                clientSocket.close();
+                
+                if(input.contains("OK"))
+                {
+                    JOptionPane.showMessageDialog(this,"Nodo agregado exitosamente",":)",JOptionPane.INFORMATION_MESSAGE);
+                    this.getRouterConf(false);
+                }
+                else
+                {
+                    throw new Exception(input);
+                }
+            } catch (NumberFormatException e) {
+                 JOptionPane.showMessageDialog(this,"El costo debe ser un numero entero positivo","Error!",JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+                 JOptionPane.showMessageDialog(this,"Ha ocurrido un error: "+e.getMessage(),"Error!",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEliminar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminar1ActionPerformed
+        this.getRouterConf(false);
+    }//GEN-LAST:event_btnEliminar1ActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+       
+        int selectedRow = this.tblNeighbors.getSelectedRow();
+        if (selectedRow != -1)
+        {
+            String selectedNode = (String)this.m.getValueAt(selectedRow, 0);
+            try
+            {
+                Socket clientSocket = new Socket(RouterListener.ip, 1983);
+                DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+                BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                String message = "RemoveNode|"+selectedNode;
+                out.write(message.getBytes());
+                String input = in.readLine();
+                clientSocket.close();
+                
+                if(input.contains("OK"))
+                {
+                    JOptionPane.showMessageDialog(this,"Nodo eliminado exitosamente",":)",JOptionPane.INFORMATION_MESSAGE);
+                    this.getRouterConf(false);
+                }
+                else
+                {
+                    throw new Exception(input);
+                }
+            }
+            catch(Exception e)
+            {
+                JOptionPane.showMessageDialog(this,"Ha ocurrido un error eliminando el vecino "+selectedNode+": "+e.getMessage(),"Error!",JOptionPane.ERROR_MESSAGE);
+            } 
+        } else {
+            JOptionPane.showMessageDialog(this,"Debe seleccionar un vecino a eliminar","",JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -239,9 +351,10 @@ public class ConfManager extends javax.swing.JFrame
     private String[] originalNeighbors;
     private DefaultListModel<String> listModel = new DefaultListModel();
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnEliminar1;
     private javax.swing.JButton btnSave;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblKA;
     private javax.swing.JLabel lblNeighbors;
