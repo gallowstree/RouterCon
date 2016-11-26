@@ -11,7 +11,7 @@ public class Main {
        RouterCon console = new RouterCon(logFrame);
        String routerIP = JOptionPane.showInputDialog("Ingrese la ip del router al que desea conectarse: ");
        if(routerIP == null)
-           routerIP = "192.168.1.15";
+           routerIP = "127.0.0.1";
        console.attach(routerIP);
     }
     

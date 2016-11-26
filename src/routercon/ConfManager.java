@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -40,10 +41,12 @@ public class ConfManager extends javax.swing.JFrame
         btnSave = new javax.swing.JButton();
         txtKA = new javax.swing.JTextField();
         lblNeighbors = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        lstNeighbors = new javax.swing.JList<>();
         lblTimeout = new javax.swing.JLabel();
         txtTimeout = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblNeighbors = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -64,9 +67,36 @@ public class ConfManager extends javax.swing.JFrame
 
         lblNeighbors.setText("Vecinos:");
 
-        jScrollPane1.setViewportView(lstNeighbors);
-
         lblTimeout.setText("Timeout:");
+
+        tblNeighbors.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"sds", "sdd",  new Integer(10)}
+            },
+            new String [] {
+                "Nombre", "IP", "Costo"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tblNeighbors);
+
+        jButton1.setText("Eliminar");
+
+        jButton2.setText("Agregar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,20 +104,30 @@ public class ConfManager extends javax.swing.JFrame
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblTimeout)
-                    .addComponent(lblNeighbors)
-                    .addComponent(lblKA))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTimeout, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtKA, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(68, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnSave)
-                .addGap(41, 41, 41))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblTimeout)
+                            .addComponent(lblKA))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTimeout, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtKA, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnSave)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblNeighbors)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(128, 128, 128)
+                                .addComponent(jButton2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1)
+                                .addGap(94, 94, 94)))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,13 +140,17 @@ public class ConfManager extends javax.swing.JFrame
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTimeout)
                     .addComponent(txtTimeout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnSave)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblNeighbors)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
-                .addComponent(btnSave)
-                .addGap(30, 30, 30))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addGap(26, 26, 26))
         );
 
         pack();
@@ -125,24 +169,53 @@ public class ConfManager extends javax.swing.JFrame
             String conf = in.readLine();
             clientSocket.close();
             
-            System.out.println(conf+" :)");
             String[] confValues = conf.split("\\|");
             this.txtKA.setText(confValues[0]);
             this.txtTimeout.setText(confValues[1]);
-            originalNeighbors = confValues[2].split(",");
-            for(int i =0; i < originalNeighbors.length; i++)
-                listModel.addElement(originalNeighbors[i]);
-            this.lstNeighbors.setModel(listModel);
+            if(confValues.length > 2)
+            {
+                this.updateTblNeighbors(confValues[2]);
+            }
+            this.tblNeighbors.setModel(this.m);
        }
        catch(Exception e)
        {
            JOptionPane.showMessageDialog(this,"Ha ocurrido un error obteniendo la configuracion del router","Error!",JOptionPane.ERROR_MESSAGE);
            this.dispose();
        }
+            
     }//GEN-LAST:event_formWindowOpened
 
+    private void updateTblNeighbors(String neighborsList)
+    {
+        String [] neighbors = neighborsList.split(";");
+        for (String neighbor : neighbors)
+        {
+            String[] data = neighbor.split(":");
+            this.m.addRow(data);
+        }
+    }
+    
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
+       try
+       {
+            Socket clientSocket = new Socket(RouterListener.ip, 1983);
+            DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            String message = "SaveConf|"+this.txtKA.getText()+"|"+this.txtTimeout.getText();
+            out.write(message.getBytes());
+            String input = in.readLine();
+            clientSocket.close();
+            if(input.contains("OK"))
+                JOptionPane.showMessageDialog(this,"Configuración guardada con exito",":)",JOptionPane.INFORMATION_MESSAGE);
+            else
+                JOptionPane.showMessageDialog(this,"Ha ocurrido un error guardando la configuración: "+input,"Error!",JOptionPane.ERROR_MESSAGE);
+       }
+       catch(Exception e)
+       {
+           System.out.println("here");
+           JOptionPane.showMessageDialog(this,"Ha ocurrido un error guardando la configuración","Error!",JOptionPane.ERROR_MESSAGE);
+       }
     }//GEN-LAST:event_btnSaveActionPerformed
 
     /**
@@ -161,15 +234,19 @@ public class ConfManager extends javax.swing.JFrame
         });
     }
 
+    private Object[] columnNames = {"Nombre", "IP", "Costo"};        
+    private DefaultTableModel m = new DefaultTableModel(new Object[0][0], columnNames);  
     private String[] originalNeighbors;
     private DefaultListModel<String> listModel = new DefaultListModel();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSave;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblKA;
     private javax.swing.JLabel lblNeighbors;
     private javax.swing.JLabel lblTimeout;
-    private javax.swing.JList<String> lstNeighbors;
+    private javax.swing.JTable tblNeighbors;
     private javax.swing.JTextField txtKA;
     private javax.swing.JTextField txtTimeout;
     // End of variables declaration//GEN-END:variables
