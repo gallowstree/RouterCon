@@ -41,10 +41,7 @@ public class LogFrame extends javax.swing.JFrame {
 
         tblNeighbors.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "Nombre", "Costo", "Ultimo Keep-Alive"
