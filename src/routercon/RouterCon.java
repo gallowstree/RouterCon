@@ -61,7 +61,11 @@ public class RouterCon
 
     private void receivedDistanceVector(List<String> lines) 
     {                        
-        
+        for (String l : lines)
+        {
+            this.logFrame.txtDVs.append(l);
+        }
+        this.logFrame.txtDVs.append("\n");
     }
     
     private void receivedKeepAlive(List<String> lines)
